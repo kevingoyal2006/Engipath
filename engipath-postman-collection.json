@@ -1,0 +1,164 @@
+{
+  "info": {
+    "_postman_id": "engipath-api-collection-2026",
+    "name": "EngiPath REST API Postman Collection",
+    "description": "Comprehensive API collection for EngiPath - Full-Stack MERN Career Roadmap application. Includes Auth, Student Workflows, and Admin Role-Based Restriction Tests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api" },
+    { "key": "studentToken", "value": "" },
+    { "key": "adminToken", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Register Student",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane.doe@university.edu\",\n  \"password\": \"student123\",\n  \"role\": \"student\",\n  \"branch\": \"Computer Science\",\n  \"year\": \"3rd Year\",\n  \"weeklyStudyHours\": 12,\n  \"learningPreference\": \"hands-on\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth", "register"] }
+          }
+        },
+        {
+          "name": "Login Student",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"student@engipath.com\",\n  \"password\": \"student123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@engipath.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Login Failure (Invalid Password)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"student@engipath.com\",\n  \"password\": \"wrongpass\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Student Workflows",
+      "item": [
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/profile", "host": ["{{baseUrl}}"], "path": ["profile"] }
+          }
+        },
+        {
+          "name": "Update Profile & Weekly Hours",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"weeklyStudyHours\": 15,\n  \"learningPreference\": \"visual\",\n  \"branch\": \"Computer Science\",\n  \"year\": \"3rd Year\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/profile", "host": ["{{baseUrl}}"], "path": ["profile"] }
+          }
+        },
+        {
+          "name": "Get Dashboard & Readiness Score",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/dashboard", "host": ["{{baseUrl}}"], "path": ["dashboard"] }
+          }
+        },
+        {
+          "name": "Get Prerequisite Topological Roadmap",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/roadmap", "host": ["{{baseUrl}}"], "path": ["roadmap"] }
+          }
+        },
+        {
+          "name": "Get Assessment Quiz Questions",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/assessments/questions", "host": ["{{baseUrl}}"], "path": ["assessments", "questions"] }
+          }
+        },
+        {
+          "name": "Get Project Recommendations",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/projects/recommendations", "host": ["{{baseUrl}}"], "path": ["projects", "recommendations"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Admin & Security Role Tests",
+      "item": [
+        {
+          "name": "Get Admin Metrics (Success with Admin Token)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/metrics", "host": ["{{baseUrl}}"], "path": ["admin", "metrics"] }
+          }
+        },
+        {
+          "name": "Get Admin Metrics (FORBIDDEN 403 Test with Student Token)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/metrics", "host": ["{{baseUrl}}"], "path": ["admin", "metrics"] }
+          }
+        },
+        {
+          "name": "Create Skill (Admin Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"TypeScript Fundamentals\",\n  \"description\": \"Static typing for JavaScript applications.\",\n  \"category\": \"Frontend\",\n  \"estimatedHours\": 15\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/skills", "host": ["{{baseUrl}}"], "path": ["admin", "skills"] }
+          }
+        }
+      ]
+    }
+  ]
+}

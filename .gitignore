@@ -1,0 +1,33 @@
+# EngiPath — Node & NPM Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Build Output
+client/dist/
+client/dist-ssr/
+client/.vite/
+
+# Environment Secrets — NEVER commit these
+.env
+server/.env
+client/.env
+*.env.local
+*.env.production
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+*.log
+
+# OS & Editor Artifacts
+.DS_Store
+Thumbs.db
+.vscode/settings.json
+.idea/
+
+# MongoDB Data Directory (if using local mongo)
+data/
+
+# Coverage & Test Output
+coverage/
